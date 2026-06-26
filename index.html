@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>社内イントラサイト</title>
+<style>
+  :root {
+    --main-color: #2c3e50;
+    --accent-color: #3498db;
+    --bg-color: #f4f6f8;
+    --card-bg: #ffffff;
+    --text-color: #333;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: "Hiragino Kaku Gothic ProN", "Meiryo", sans-serif;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+  }
+  header {
+    background-color: var(--main-color);
+    padding: 24px 0;
+    text-align: center;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+  }
+  header img {
+    max-height: 80px;
+    height: auto;
+  }
+  main {
+    max-width: 900px;
+    margin: 40px auto;
+    padding: 0 20px;
+  }
+  h2 {
+    font-size: 18px;
+    color: var(--main-color);
+    border-left: 5px solid var(--accent-color);
+    padding-left: 10px;
+    margin: 36px 0 16px;
+  }
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 16px;
+  }
+  .card {
+    background-color: var(--card-bg);
+    border-radius: 8px;
+    padding: 18px 20px;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.1);
+    text-decoration: none;
+    color: var(--text-color);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+  }
+  .card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+  }
+  .card.disabled {
+    color: #999;
+    cursor: default;
+    pointer-events: none;
+    background-color: #f0f0f0;
+  }
+  .card .label {
+    font-size: 15px;
+    font-weight: 600;
+  }
+  .card .badge {
+    font-size: 11px;
+    background-color: var(--accent-color);
+    color: #fff;
+    border-radius: 4px;
+    padding: 2px 8px;
+    margin-left: 8px;
+    white-space: nowrap;
+  }
+  .card.disabled .badge {
+    background-color: #bbb;
+  }
+  footer {
+    text-align: center;
+    padding: 24px;
+    font-size: 12px;
+    color: #999;
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <img src="yoko_RGB.png" alt="会社ロゴ">
+</header>
+
+<main>
+
+  <h2>業務システム</h2>
+  <div class="grid">
+    <a class="card" href="https://team-schedule.onrender.com/login.html" target="_blank" rel="noopener noreferrer">
+      <span class="label">スケジュール</span>
+    </a>
+    <a class="card" href="https://www.infomart.co.jp/scripts/logon.asp" target="_blank" rel="noopener noreferrer">
+      <span class="label">インフォマート</span>
+    </a>
+    <a class="card" href="https://www.cms.hotpepper.jp/CLN/login/" target="_blank" rel="noopener noreferrer">
+      <span class="label">ホットペッパー管理画面</span>
+    </a>
+    <a class="card" href="https://admin.thebase.com/users/login" target="_blank" rel="noopener noreferrer">
+      <span class="label">BASE管理画面</span>
+    </a>
+    <a class="card disabled">
+      <span class="label">出張申請・報告</span>
+      <span class="badge">準備中</span>
+    </a>
+    <a class="card disabled">
+      <span class="label">日報報告</span>
+      <span class="badge">準備中</span>
+    </a>
+  </div>
+
+  <h2>▼福利厚生</h2>
+  <div class="grid">
+    <a class="card disabled">
+      <span class="label">エスコンチケット申し込み</span>
+      <span class="badge">準備中</span>
+    </a>
+    <a class="card disabled">
+      <span class="label">サツドラ 5％OFF登録方法</span>
+    </a>
+    <a class="card disabled">
+      <span class="label">スタッフ割チケット</span>
+    </a>
+  </div>
+
+</main>
+
+<footer>
+  &copy; 2026 社内イントラサイト
+</footer>
+
+</body>
+</html>
