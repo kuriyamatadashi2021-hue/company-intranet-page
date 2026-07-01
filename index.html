@@ -30,8 +30,8 @@
     height: auto;
   }
   main {
-    max-width: 900px;
-    margin: 40px auto;
+    max-width: 960px;
+    margin: 32px auto;
     padding: 0 20px;
   }
   h2 {
@@ -39,57 +39,115 @@
     color: var(--main-color);
     border-left: 5px solid var(--accent-color);
     padding-left: 10px;
-    margin: 36px 0 16px;
+    margin: 36px 0 18px;
   }
-  .grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-    gap: 16px;
-  }
-  .card {
+
+  /* NEWS */
+  #news {
     background-color: var(--card-bg);
     border-radius: 8px;
-    padding: 18px 20px;
+    padding: 8px 20px;
     box-shadow: 0 1px 4px rgba(0,0,0,0.1);
-    text-decoration: none;
-    color: var(--text-color);
+  }
+  #news ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  #news li {
     display: flex;
-    align-items: center;
-    justify-content: space-between;
-    transition: transform 0.15s ease, box-shadow 0.15s ease;
+    gap: 14px;
+    padding: 12px 4px;
+    border-bottom: 1px solid #eee;
+    font-size: 14px;
   }
-  .card:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 4px 10px rgba(0,0,0,0.15);
-  }
-  .card.disabled {
-    color: #999;
-    cursor: default;
-    pointer-events: none;
-    background-color: #f0f0f0;
-  }
-  .card .label {
-    font-size: 15px;
+  #news li:last-child { border-bottom: none; }
+  #news .date {
+    color: var(--accent-color);
     font-weight: 600;
-  }
-  .card .badge {
-    font-size: 11px;
-    background-color: var(--accent-color);
-    color: #fff;
-    border-radius: 4px;
-    padding: 2px 8px;
-    margin-left: 8px;
     white-space: nowrap;
   }
-  .card.disabled .badge {
-    background-color: #bbb;
+  #news .empty {
+    color: #999;
+    padding: 12px 4px;
+    font-size: 14px;
   }
+
+  /* グリッド：ロゴタイル */
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+    gap: 18px;
+  }
+  .item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+  .item-name {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--main-color);
+    margin-bottom: 6px;
+    min-height: 34px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .tile {
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    background-color: var(--card-bg);
+    border: 1px solid #e3e8ec;
+    border-radius: 12px;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    color: var(--text-color);
+    cursor: pointer;
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+    position: relative;
+    overflow: hidden;
+    padding: 14px;
+  }
+  .tile:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 14px rgba(0,0,0,0.16);
+  }
+  .tile img {
+    max-width: 70%;
+    max-height: 70%;
+    object-fit: contain;
+  }
+  .tile.disabled {
+    cursor: default;
+    pointer-events: none;
+    background-color: #f2f4f6;
+    box-shadow: none;
+  }
+  .tile.disabled img { opacity: 0.4; }
+  .badge {
+    position: absolute;
+    top: 6px;
+    right: 6px;
+    font-size: 10px;
+    background-color: #bbb;
+    color: #fff;
+    border-radius: 4px;
+    padding: 1px 6px;
+  }
+
   footer {
     text-align: center;
     padding: 24px;
     font-size: 12px;
     color: #999;
   }
+
+  /* ロック画面 */
   #lock-screen {
     position: fixed;
     inset: 0;
@@ -108,10 +166,7 @@
     text-align: center;
     box-shadow: 0 6px 20px rgba(0,0,0,0.3);
   }
-  #lock-box img {
-    max-height: 60px;
-    margin-bottom: 20px;
-  }
+  #lock-box img { max-height: 60px; margin-bottom: 20px; }
   #lock-box input {
     width: 100%;
     padding: 10px 12px;
@@ -130,24 +185,47 @@
     border-radius: 6px;
     cursor: pointer;
   }
-  #lock-box button:hover {
-    background-color: #2980b9;
-  }
-  #lock-error {
-    color: #e74c3c;
-    font-size: 13px;
-    margin-top: 10px;
-    min-height: 16px;
-  }
+  #lock-box button:hover { background-color: #2980b9; }
+  #lock-error { color: #e74c3c; font-size: 13px; margin-top: 10px; min-height: 16px; }
   body.locked > header,
   body.locked > main,
-  body.locked > footer {
+  body.locked > footer { display: none; }
+
+  /* ポップアップ */
+  #popup-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.5);
     display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 1100;
+  }
+  #popup-overlay.show { display: flex; }
+  #popup-box {
+    background: #fff;
+    border-radius: 10px;
+    padding: 28px 26px;
+    max-width: 320px;
+    width: 90%;
+    text-align: center;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+  }
+  #popup-box p { font-size: 15px; margin: 0 0 20px; line-height: 1.6; }
+  #popup-box button {
+    padding: 8px 24px;
+    font-size: 14px;
+    background: var(--accent-color);
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
   }
 </style>
 </head>
 <body class="locked">
 
+<!-- ===== ロック画面 ===== -->
 <div id="lock-screen">
   <div id="lock-box">
     <img src="yoko_RGB.png" alt="会社ロゴ">
@@ -165,42 +243,121 @@
 
 <main>
 
-  <h2>業務システム</h2>
-  <div class="grid">
-    <a class="card" href="https://team-schedule.onrender.com/login.html" target="_blank" rel="noopener noreferrer">
-      <span class="label">スケジュール</span>
-    </a>
-    <a class="card" href="https://www.infomart.co.jp/scripts/logon.asp" target="_blank" rel="noopener noreferrer">
-      <span class="label">インフォマート</span>
-    </a>
-    <a class="card" href="https://www.cms.hotpepper.jp/CLN/login/" target="_blank" rel="noopener noreferrer">
-      <span class="label">ホットペッパー管理画面</span>
-    </a>
-    <a class="card" href="https://admin.thebase.com/users/login" target="_blank" rel="noopener noreferrer">
-      <span class="label">BASE管理画面</span>
-    </a>
-    <a class="card disabled">
-      <span class="label">出張申請・報告</span>
-      <span class="badge">準備中</span>
-    </a>
-    <a class="card disabled">
-      <span class="label">日報報告</span>
-      <span class="badge">準備中</span>
-    </a>
+  <!-- ============================================================= -->
+  <!-- NEWS：お知らせを追加するには下の<li>をコピーして日付と内容を書き換えてください -->
+  <!-- ============================================================= -->
+  <h2>NEWS</h2>
+  <div id="news">
+    <ul>
+      <li><span class="date">2026/07/01</span><span class="text">社内イントラサイトを公開しました。</span></li>
+    </ul>
   </div>
 
+  <!-- ===== 業務システム ===== -->
+  <h2>▼業務システム</h2>
+  <div class="grid">
+    <div class="item">
+      <span class="item-name">V-Manage</span>
+      <a class="tile" href="https://portal.infomart.co.jp/auth/signin" target="_blank" rel="noopener noreferrer">
+        <img src="https://www.google.com/s2/favicons?domain=infomart.co.jp&sz=128" alt="V-Manage">
+      </a>
+    </div>
+    <div class="item">
+      <span class="item-name">インフォマート</span>
+      <a class="tile" href="https://www.infomart.co.jp/scripts/logon.asp" target="_blank" rel="noopener noreferrer">
+        <img src="https://www.google.com/s2/favicons?domain=infomart.co.jp&sz=128" alt="インフォマート">
+      </a>
+    </div>
+    <div class="item">
+      <span class="item-name">出張申請・報告</span>
+      <a class="tile" href="https://shutchou-app.onrender.com/" target="_blank" rel="noopener noreferrer">
+        <img src="https://www.google.com/s2/favicons?domain=shutchou-app.onrender.com&sz=128" alt="出張申請・報告">
+      </a>
+    </div>
+    <div class="item">
+      <span class="item-name">売上日報</span>
+      <span class="tile disabled">
+        <span class="badge">準備中</span>
+        <img src="https://www.google.com/s2/favicons?domain=onrender.com&sz=128" alt="売上日報">
+      </span>
+    </div>
+    <div class="item">
+      <span class="item-name">スケジュール管理</span>
+      <a class="tile" href="https://team-schedule.onrender.com/login.html" target="_blank" rel="noopener noreferrer">
+        <img src="https://www.google.com/s2/favicons?domain=team-schedule.onrender.com&sz=128" alt="スケジュール管理">
+      </a>
+    </div>
+    <div class="item">
+      <span class="item-name">月次PL会議</span>
+      <span class="tile disabled">
+        <span class="badge">準備中</span>
+        <img src="https://www.google.com/s2/favicons?domain=onrender.com&sz=128" alt="月次PL会議">
+      </span>
+    </div>
+  </div>
+
+  <!-- ===== 勤怠システム ===== -->
+  <h2>▼勤怠システム</h2>
+  <div class="grid">
+    <div class="item">
+      <span class="item-name">Smart HR</span>
+      <a class="tile" href="https://daito-group.smarthr.jp/login" target="_blank" rel="noopener noreferrer">
+        <img src="https://www.google.com/s2/favicons?domain=smarthr.jp&sz=128" alt="Smart HR">
+      </a>
+    </div>
+    <div class="item">
+      <span class="item-name">KING OF TIME</span>
+      <a class="tile" href="https://s2.ta.kingoftime.jp/admin" target="_blank" rel="noopener noreferrer">
+        <img src="https://www.google.com/s2/favicons?domain=kingoftime.jp&sz=128" alt="KING OF TIME">
+      </a>
+    </div>
+  </div>
+
+  <!-- ===== 外部システム管理画面 ===== -->
+  <h2>▼外部システム管理画面</h2>
+  <div class="grid">
+    <div class="item">
+      <span class="item-name">ホットペッパーグルメ</span>
+      <a class="tile" href="https://www.cms.hotpepper.jp/CLN/login/" target="_blank" rel="noopener noreferrer">
+        <img src="https://www.google.com/s2/favicons?domain=hotpepper.jp&sz=128" alt="ホットペッパーグルメ">
+      </a>
+    </div>
+    <div class="item">
+      <span class="item-name">イグレック</span>
+      <a class="tile" href="https://www2.ipadso.net/hq/login" target="_blank" rel="noopener noreferrer">
+        <img src="https://www.google.com/s2/favicons?domain=ipadso.net&sz=128" alt="イグレック">
+      </a>
+    </div>
+    <div class="item">
+      <span class="item-name">BASE</span>
+      <a class="tile" href="https://admin.thebase.com/users/login" target="_blank" rel="noopener noreferrer">
+        <img src="https://www.google.com/s2/favicons?domain=thebase.com&sz=128" alt="BASE">
+      </a>
+    </div>
+  </div>
+
+  <!-- ===== 福利厚生 ===== -->
   <h2>▼福利厚生</h2>
   <div class="grid">
-    <a class="card disabled">
-      <span class="label">エスコンチケット申し込み</span>
-      <span class="badge">準備中</span>
-    </a>
-    <a class="card disabled">
-      <span class="label">サツドラ 5％OFF登録方法</span>
-    </a>
-    <a class="card disabled">
-      <span class="label">スタッフ割チケット</span>
-    </a>
+    <div class="item">
+      <span class="item-name">エスコンチケット申し込み</span>
+      <span class="tile disabled">
+        <span class="badge">準備中</span>
+        <img src="https://www.google.com/s2/favicons?domain=hkdballpark.com&sz=128" alt="エスコンチケット申し込み">
+      </span>
+    </div>
+    <div class="item">
+      <span class="item-name">サツドラ 5％OFF登録方法</span>
+      <a class="tile" href="satudora-5off.pdf" target="_blank" rel="noopener noreferrer">
+        <img src="https://www.google.com/s2/favicons?domain=satudora.jp&sz=128" alt="サツドラ 5％OFF登録方法">
+      </a>
+    </div>
+    <div class="item">
+      <span class="item-name">スタッフ割チケット</span>
+      <a class="tile" href="#" id="staff-ticket">
+        <img src="https://www.google.com/s2/favicons?domain=synology.com&sz=128" alt="スタッフ割チケット">
+      </a>
+    </div>
   </div>
 
 </main>
@@ -208,6 +365,14 @@
 <footer>
   &copy; 2026 社内イントラサイト
 </footer>
+
+<!-- ===== ポップアップ ===== -->
+<div id="popup-overlay">
+  <div id="popup-box">
+    <p id="popup-message"></p>
+    <button type="button" id="popup-close">閉じる</button>
+  </div>
+</div>
 
 <script>
 (function () {
@@ -225,25 +390,41 @@
 
   function unlock() {
     document.body.classList.remove("locked");
-    document.getElementById("lock-screen").remove();
+    var ls = document.getElementById("lock-screen");
+    if (ls) ls.remove();
   }
 
   if (localStorage.getItem(STORAGE_KEY) === PASSWORD_HASH) {
     unlock();
-    return;
+  } else {
+    document.getElementById("lock-form").addEventListener("submit", function (e) {
+      e.preventDefault();
+      var input = document.getElementById("lock-password").value;
+      sha256(input).then(function (hash) {
+        if (hash === PASSWORD_HASH) {
+          localStorage.setItem(STORAGE_KEY, hash);
+          unlock();
+        } else {
+          document.getElementById("lock-error").textContent = "パスワードが違います";
+        }
+      });
+    });
   }
 
-  document.getElementById("lock-form").addEventListener("submit", function (e) {
+  /* ポップアップ */
+  function showPopup(message) {
+    document.getElementById("popup-message").textContent = message;
+    document.getElementById("popup-overlay").classList.add("show");
+  }
+  document.getElementById("popup-close").addEventListener("click", function () {
+    document.getElementById("popup-overlay").classList.remove("show");
+  });
+  document.getElementById("popup-overlay").addEventListener("click", function (e) {
+    if (e.target === this) this.classList.remove("show");
+  });
+  document.getElementById("staff-ticket").addEventListener("click", function (e) {
     e.preventDefault();
-    var input = document.getElementById("lock-password").value;
-    sha256(input).then(function (hash) {
-      if (hash === PASSWORD_HASH) {
-        localStorage.setItem(STORAGE_KEY, hash);
-        unlock();
-      } else {
-        document.getElementById("lock-error").textContent = "パスワードが違います";
-      }
-    });
+    showPopup("シノロジーチャットをご確認ください");
   });
 })();
 </script>
